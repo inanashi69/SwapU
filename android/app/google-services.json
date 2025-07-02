@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "927355414760",
+    "project_id": "swapu-21637",
+    "storage_bucket": "swapu-21637.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927355414760:android:728fa29f0d5f1bb454815d",
+        "android_client_info": {
+          "package_name": "com.example.swapu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgxmwDRKImvGFuCtH3FLzy0EhDOElSM-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
