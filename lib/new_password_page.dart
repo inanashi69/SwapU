@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class VerificationPage extends StatelessWidget {
-  const VerificationPage({super.key});
+class NewPasswordPage extends StatelessWidget {
+  const NewPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,12 @@ class VerificationPage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               const Text(
-                "Verify your email",
+                "Set New Password",
                 style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               const Text(
-                "A verification link has been sent to your email. Please check and confirm before continuing.",
+                "Feature not yet available.\nPlease use the link in your email to reset password.",
                 style: TextStyle(color: Colors.white70),
                 textAlign: TextAlign.center,
               ),

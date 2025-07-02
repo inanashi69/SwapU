@@ -1,5 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Ganti sesuai nama file login kamu
+import 'login_page.dart';
 
 class LoadingLogo extends StatefulWidget {
   const LoadingLogo({super.key});
@@ -12,14 +13,8 @@ class _LoadingLogoState extends State<LoadingLogo> {
   @override
   void initState() {
     super.initState();
-
-    // Delay selama 2 detik, lalu pindah ke LoginPage
-    Future.delayed(const Duration(seconds: 2), () {
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-      );
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, '/login');
     });
   }
 
@@ -31,15 +26,9 @@ class _LoadingLogoState extends State<LoadingLogo> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image(
-              image: AssetImage('assets/swapu.png'), // Pastikan gambar ini ada di pubspec.yaml
-              width: 200,
-              height: 200,
-            ),
-            SizedBox(height: 20),
-            CircularProgressIndicator(
-              color: Colors.yellow,
-            ),
+            Image(image: AssetImage('assets/swapu.png'), width: 150),
+            SizedBox(height: 30),
+            CircularProgressIndicator(color: Colors.yellow),
           ],
         ),
       ),

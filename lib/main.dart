@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart'; // Dihasilkan oleh FlutterFire CLI
-import 'loading_logo.dart';     // Menampilkan splash screen logo
+import 'firebase_options.dart';
+import 'loading_logo.dart';
+import 'login_page.dart';
+import 'register_page.dart';
+import 'forgot_password_page.dart';
+import 'verification_page.dart';
+import 'new_password_page.dart';
+import 'dashboard_page.dart'; // 🔥 Tambahkan ini
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Inisialisasi Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(const MyApp());
 }
 
@@ -20,11 +23,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SwapU',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
-        primaryColor: Colors.yellow,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.yellow,
@@ -47,7 +48,16 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(color: Colors.white),
         ),
       ),
-      home: const LoadingLogo(), // Splash screen di sini
+      initialRoute: '/',
+      routes: {
+        '/': (_) => const LoadingLogo(),
+        '/login': (_) => const LoginPage(),
+        '/register': (_) => const RegisterPage(),
+        '/forgot-password': (_) => const ForgotPasswordPage(),
+        '/verification': (_) => const VerificationPage(),
+        '/new-password': (_) => const NewPasswordPage(),
+        '/dashboard': (_) => const DashboardPage(), // ✅ Tambahkan ini
+      },
     );
   }
 }
