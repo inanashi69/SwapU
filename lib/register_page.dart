@@ -21,24 +21,28 @@ class _RegisterPageState extends State<RegisterPage> {
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
 
-    // Validasi input
     if (name.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       setState(() => errorMessage = "Semua field harus diisi.");
       return;
     }
+
     if (password != confirmPassword) {
       setState(() => errorMessage = "Password tidak cocok.");
       return;
     }
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
+      // ✅ Simpan nama lengkap sebagai displayName ke Firebase Auth
+      await userCredential.user!.updateDisplayName(name);
+      await userCredential.user!.reload(); // Refresh data user
+
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/verification');
+      Navigator.pushReplacementNamed(context, '/verification'); // atau ke dashboard jika tidak perlu verifikasi
     } catch (e) {
       setState(() => errorMessage = 'Registrasi gagal. Email mungkin sudah digunakan.');
     }
@@ -56,11 +60,13 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Image.asset('assets/swapu.png', width: 100),
                 const SizedBox(height: 40),
-                const Text("Sign Up",
-                    style: TextStyle(fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold)),
+                const Text(
+                  "Sign Up",
+                  style: TextStyle(fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 20),
 
-                // Nama
+                // Nama Lengkap
                 TextField(
                   controller: nameController,
                   style: const TextStyle(color: Colors.white),
@@ -85,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
 
-                // Confirm Password
+                // Konfirmasi Password
                 TextField(
                   controller: confirmPasswordController,
                   obscureText: true,
@@ -110,8 +116,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/login');
                   },
-                  child: const Text("Already have an account? Log In",
-                      style: TextStyle(color: Colors.white70)),
+                  child: const Text(
+                    "Already have an account? Log In",
+                    style: TextStyle(color: Colors.white70),
+                  ),
                 ),
               ],
             ),

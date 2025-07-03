@@ -17,7 +17,11 @@ class DashboardPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text(
           'Hai, $username!',
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         actions: const [
           Padding(
@@ -87,14 +91,15 @@ class DashboardPage extends StatelessWidget {
               children: List.generate(6, (index) {
                 return productCard(
                   image: 'https://via.placeholder.com/150',
-                  title: index == 0 ? 'Tas Selempang wanita' : 'Barang ${index + 1}',
+                  title: index == 0 ? 'Tas Selempang Wanita' : 'Barang ${index + 1}',
                 );
               }),
             ),
           ],
         ),
       ),
-      // 🔻 Bottom Navigation
+
+      /// 🔻 Bottom Navigation + FAB
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.yellow,
         onPressed: () {},
@@ -112,7 +117,7 @@ class DashboardPage extends StatelessWidget {
             children: [
               navItem(Icons.home, "Beranda"),
               navItem(Icons.sync_alt, "Tukar"),
-              const SizedBox(width: 48), // untuk FAB
+              const SizedBox(width: 48), // for FAB space
               navItem(Icons.message, "Pesan"),
               navItem(Icons.person, "Akun"),
             ],
