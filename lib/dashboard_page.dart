@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:swapu/add.dart';
 
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
+class DashboardPage extends StatefulWidget {
+  const DashboardPage({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  int _selectedIndex = 0;     // ← dipakai di navItem
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +43,7 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// 🔍 Search bar
+            // 🔍 Search bar
             Container(
               margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -56,7 +64,7 @@ class DashboardPage extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            /// 🧷 Kategori
+            // 🧷 Kategori
             SizedBox(
               height: 80,
               child: ListView(
@@ -73,14 +81,17 @@ class DashboardPage extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            /// 🛍️ Section "Barter Yuk!"
+            // 🛍️ Section "Barter Yuk!"
             const Text(
               'Barter Yuk!',
-              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
 
-            /// 📦 Grid produk
+            // 📦 Grid produk
             GridView.count(
               shrinkWrap: true,
               crossAxisCount: 2,
@@ -91,7 +102,8 @@ class DashboardPage extends StatelessWidget {
               children: List.generate(6, (index) {
                 return productCard(
                   image: 'https://via.placeholder.com/150',
-                  title: index == 0 ? 'Tas Selempang Wanita' : 'Barang ${index + 1}',
+                  title:
+                      index == 0 ? 'Tas Selempang Wanita' : 'Barang ${index + 1}',
                 );
               }),
             ),
@@ -99,27 +111,36 @@ class DashboardPage extends StatelessWidget {
         ),
       ),
 
-      /// 🔻 Bottom Navigation + FAB
+      // 🔻 Bottom Navigation + FAB
       floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddPage()),
+          );
+        },
         backgroundColor: Colors.yellow,
-        onPressed: () {},
-        child: const Icon(Icons.add, color: Colors.black),
+        foregroundColor: Colors.black,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.black,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            top: BorderSide(color: Colors.yellow, width: 2),
+          ),
+        ),
         child: SizedBox(
-          height: 60,
+          height: 56,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              navItem(Icons.home, "Beranda"),
-              navItem(Icons.sync_alt, "Tukar"),
-              const SizedBox(width: 48), // for FAB space
-              navItem(Icons.message, "Pesan"),
-              navItem(Icons.person, "Akun"),
+              navItem(Icons.home, 'Beranda', 0),
+              navItem(Icons.sync_alt, 'Tukar', 1),
+              const SizedBox(width: 48), // ruang buat FAB
+              navItem(Icons.message, 'Pesan', 2),
+              navItem(Icons.person, 'Akun', 3),
             ],
           ),
         ),
@@ -127,6 +148,7 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
+  // ---------- Widget helper ----------
   Widget categoryItem(IconData icon, String label) {
     return Container(
       width: 70,
@@ -139,7 +161,8 @@ class DashboardPage extends StatelessWidget {
             child: Icon(icon, color: Colors.black),
           ),
           const SizedBox(height: 4),
-          Text(label, style: const TextStyle(color: Colors.white, fontSize: 12)),
+          Text(label,
+              style: const TextStyle(color: Colors.white, fontSize: 12)),
         ],
       ),
     );
@@ -155,8 +178,10 @@ class DashboardPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.network(image, height: 100, width: double.infinity, fit: BoxFit.cover),
+            borderRadius:
+                const BorderRadius.vertical(top: Radius.circular(16)),
+            child: Image.network(image,
+                height: 100, width: double.infinity, fit: BoxFit.cover),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -164,13 +189,15 @@ class DashboardPage extends StatelessWidget {
           ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
                 minimumSize: const Size(double.infinity, 36),
               ),
               child: const Text('Ajak barter'),
@@ -181,14 +208,30 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget navItem(IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: Colors.yellow),
-        Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
-      ],
+  Widget navItem(IconData icon, String label, int index) {
+    final selected = _selectedIndex == index;
+    return Expanded(
+      child: InkWell(
+        onTap: () => setState(() => _selectedIndex = index),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon,
+                  color: selected ? Colors.yellow : Colors.white70),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: TextStyle(
+                  color: selected ? Colors.yellow : Colors.white70,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
