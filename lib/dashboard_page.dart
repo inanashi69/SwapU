@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swapu/add.dart';
+import 'chat_page.dart'; // Tambahkan ini
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  int _selectedIndex = 0;     // ← dipakai di navItem
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,6 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔍 Search bar
             Container(
               margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -61,10 +61,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             ),
-
             const SizedBox(height: 20),
-
-            // 🧷 Kategori
             SizedBox(
               height: 80,
               child: ListView(
@@ -78,20 +75,16 @@ class _DashboardPageState extends State<DashboardPage> {
                 ],
               ),
             ),
-
             const SizedBox(height: 12),
-
-            // 🛍️ Section "Barter Yuk!"
             const Text(
               'Barter Yuk!',
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 10),
-
-            // 📦 Grid produk
             GridView.count(
               shrinkWrap: true,
               crossAxisCount: 2,
@@ -102,16 +95,15 @@ class _DashboardPageState extends State<DashboardPage> {
               children: List.generate(6, (index) {
                 return productCard(
                   image: 'https://via.placeholder.com/150',
-                  title:
-                      index == 0 ? 'Tas Selempang Wanita' : 'Barang ${index + 1}',
+                  title: index == 0
+                      ? 'Tas Selempang Wanita'
+                      : 'Barang ${index + 1}',
                 );
               }),
             ),
           ],
         ),
       ),
-
-      // 🔻 Bottom Navigation + FAB
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -138,7 +130,7 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               navItem(Icons.home, 'Beranda', 0),
               navItem(Icons.sync_alt, 'Tukar', 1),
-              const SizedBox(width: 48), // ruang buat FAB
+              const SizedBox(width: 48),
               navItem(Icons.message, 'Pesan', 2),
               navItem(Icons.person, 'Akun', 3),
             ],
@@ -148,7 +140,6 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  // ---------- Widget helper ----------
   Widget categoryItem(IconData icon, String label) {
     return Container(
       width: 70,
@@ -180,8 +171,12 @@ class _DashboardPageState extends State<DashboardPage> {
           ClipRRect(
             borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.network(image,
-                height: 100, width: double.infinity, fit: BoxFit.cover),
+            child: Image.network(
+              image,
+              height: 100,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -189,8 +184,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           const Spacer(),
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
@@ -212,14 +206,21 @@ class _DashboardPageState extends State<DashboardPage> {
     final selected = _selectedIndex == index;
     return Expanded(
       child: InkWell(
-        onTap: () => setState(() => _selectedIndex = index),
+        onTap: () {
+          setState(() => _selectedIndex = index);
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ChatPage()),
+            );
+          }
+        },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon,
-                  color: selected ? Colors.yellow : Colors.white70),
+              Icon(icon, color: selected ? Colors.yellow : Colors.white70),
               const SizedBox(height: 2),
               Text(
                 label,

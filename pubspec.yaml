@@ -1,6 +1,6 @@
 name: swapu
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: 'none' # Private project
 
 version: 1.0.0+1
 
@@ -11,13 +11,30 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+
+  # 🔥 Firebase Core & Auth
   firebase_core: ^2.27.0
   firebase_auth: ^4.20.0
-  http: ^0.13.6
+
+  # ☁️ Firestore & Storage
+  cloud_firestore: ^4.15.9
+  firebase_storage: ^11.7.2
+
+  # 📷 Gambar dari galeri/kamera
   image_picker: ^1.1.0
+
+  # 📂 Path dan akses file lokal
   path: ^1.9.0
   path_provider: ^2.1.2
+
+  # 🔄 Parsing MIME type saat upload
   http_parser: ^4.0.2
+
+  # 🌐 (Opsional) Ambil data dari internet
+  http: ^0.13.6
+
+  # 📢 (Opsional) Notifikasi push
+  # firebase_messaging: ^14.7.10
 
 dev_dependencies:
   flutter_test:

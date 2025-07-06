@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
 import 'loading_logo.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 import 'forgot_password_page.dart';
 import 'verification_page.dart';
 import 'new_password_page.dart';
-import 'dashboard_page.dart'; // 🔥 Tambahkan ini
+import 'dashboard_page.dart';
+import 'chat_page.dart';
+import 'chat_detail_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +59,31 @@ class MyApp extends StatelessWidget {
         '/forgot-password': (_) => const ForgotPasswordPage(),
         '/verification': (_) => const VerificationPage(),
         '/new-password': (_) => const NewPasswordPage(),
-        '/dashboard': (_) => const DashboardPage(), // ✅ Tambahkan ini
+        '/dashboard': (_) => const DashboardPage(),
+        '/chat': (_) => const ChatPage(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/chatDetail') {
+          final args = settings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (_) => ChatDetailPage(
+              chatId: args['chatId'],
+              otherUserId: args['otherUserId'],
+            ),
+          );
+        }
+
+        // Fallback jika route tidak dikenal
+        return MaterialPageRoute(
+          builder: (_) => const Scaffold(
+            body: Center(
+              child: Text(
+                'Halaman tidak ditemukan',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        );
       },
     );
   }
